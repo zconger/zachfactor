@@ -17,9 +17,9 @@ namespace daemon_console
             {   Console.WriteLine(ex.Message);  }
         }
 
-        private static string certificateFullPath = "C:\\temp\\client-certificate-test\\nicold-my-sample-certificate-20220614.pfx"; // Replace with your certificate path
-        private static string applicationID="ace7a10d-aaaa-4a01-8663-1440b6b78cb9"; // replace with your application ID
-        private static string authority="https://login.microsoftonline.com/dac2b1d5-5420-4fad-889e-1280ffdc8003/"; // replace with your AAD authority
+        private static string certificateFullPath = "/Users/zconger/git/github/zconger/zachfactor/keyster-zachlock-20231021.pfx"; // Replace with your certificate path
+        private static string applicationID="d4b58aba-58c7-4e58-a604-b4d7c0b8f7f5"; // replace with your application ID
+        private static string authority="https://login.microsoftonline.com/ca346305-52ed-45ea-8064-3c4e8196ea12/"; // replace with your AAD authority
 
         private static async Task RunAsync()
         {

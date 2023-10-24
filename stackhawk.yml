@@ -1,0 +1,47 @@
+# -- stackhawk configuration for  --
+app:
+  # -- An applicationId obtained from the StackHawk platform. --
+  applicationId: c215343c-6374-4b99-b718-45738062ad82 # (required)
+  # -- The environment for the applicationId defined in the StackHawk platform. --
+  env: Development # (required)
+  # -- The url of your application to scan --
+  host: http://example.com # (required)
+
+  authentication:
+    loggedInIndicator: ".*" # This will always match, so we will never fall through to loggedOutIndicator
+    loggedOutIndicator: "^$" # This will never match, so we will never reauthenticate
+
+    # AuthN Settings
+    script:
+      name: aad-cc-cert-auth.kts
+      parameters:
+        tenant: d4b58aba-58c7-4e58-a604-b4d7c0b8f7f5 # The directory tenant that you want to log the user into. The tenant can be in GUID or friendly name format
+        scope: api://d4b58aba-58c7-4e58-a604-b4d7c0b8f7f5/.default # The resource identifier (application ID URI) of the resource you want, affixed with the .default suffix, e.g. https://graph.microsoft.com/.default
+        cert_thumbprint : E88F5E7F800C725F303106CF04D8C90AF6C1044C # Base64url-encoded SHA-1 thumbprint of the X.509 certificate's DER encoding. For example, given an X.509 certificate hash of 84E05C1D98BCE3A5421D225B140B36E86A3D5534 (Hex), the x5t claim would be hOBcHZi846VCHSJbFAs26Go9VTQ (Base64url).
+        cert_path: keyster-zachlock-20231021.pfx
+      credentials:
+        clientId: ca346305-52ed-45ea-8064-3c4e8196ea12 # The Application (client) ID that the Azure portal App registrations page assigned to your app
+
+    # AuthZ Settings
+    tokenExtraction:
+      type: TOKEN_PATH
+      value: access_token
+    tokenAuthorization:
+      type: HEADER
+      value: Authorization
+      tokenType: Bearer
+    testPath:
+      path: /secured
+      success: '.*200.*'
+
+hawkAddOn:
+  scripts:
+    - name: aad-cc-cert-auth.kts
+      path: hawkscripts
+      type: authentication
+      language: KOTLIN
+
+hawk:
+  spider:
+    base: false
+
